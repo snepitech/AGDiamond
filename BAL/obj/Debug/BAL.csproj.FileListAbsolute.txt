@@ -1,0 +1,10 @@
+F:\LiveProjects\Projects\C#\AGDiamond\BAL\bin\Debug\BAL.dll.config
+F:\LiveProjects\Projects\C#\AGDiamond\BAL\bin\Debug\BAL.dll
+F:\LiveProjects\Projects\C#\AGDiamond\BAL\bin\Debug\BAL.pdb
+F:\LiveProjects\Projects\C#\AGDiamond\BAL\bin\Debug\ConfigLib.dll
+F:\LiveProjects\Projects\C#\AGDiamond\BAL\bin\Debug\Newtonsoft.Json.dll
+F:\LiveProjects\Projects\C#\AGDiamond\BAL\bin\Debug\Owin.dll
+F:\LiveProjects\Projects\C#\AGDiamond\BAL\bin\Debug\Newtonsoft.Json.pdb
+F:\LiveProjects\Projects\C#\AGDiamond\BAL\bin\Debug\Newtonsoft.Json.xml
+F:\LiveProjects\Projects\C#\AGDiamond\BAL\obj\Debug\BAL.dll
+F:\LiveProjects\Projects\C#\AGDiamond\BAL\obj\Debug\BAL.pdb

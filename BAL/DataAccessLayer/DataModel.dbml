@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="AGDiamond" Class="DataModelDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=ADMIN\SERVER2019;Initial Catalog=AGDiamond;Persist Security Info=True;User ID=sa" SettingsObjectName="BAL.Properties.Settings" SettingsPropertyName="AGDiamondConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Constant" Member="Constants">
+    <Type Name="Constant">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="[Key]" Member="Key" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Value" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Type" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="is_active" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="insert_on_utc" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="update_on_utc" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Role_Mast" Member="Role_Masts">
+    <Type Name="Role_Mast">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="code" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="name" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="remark" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="is_active" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="added_by" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="edited_by" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="insert_date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="update_date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.User_Mast" Member="User_Masts">
+    <Type Name="User_Mast">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="role_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="code" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="name" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="remark" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="is_active" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="added_by" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="edited_by" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="insert_date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="update_date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PageList" Member="PageLists">
+    <Type Name="PageList">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="page_name" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="page_name_sub" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="page_name_sub_more" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="is_view" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="is_insert" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="is_update" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="is_delete" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="is_active" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="added_by" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="edited_by" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="insert_date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="update_date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>

@@ -44,5 +44,60 @@ namespace BAL.Project.Settings
                 return _ER;
             }
         }
+        public static dynamic Insert(BAL.DataAccessLayer.Role_Mast _ac, BAL.FilterSetting _f)
+        {
+            try
+            {
+                DataSet _DS = new DataSet();
+                SqlOps.Clear();
+                Hashtable _HT = new Hashtable();
+                SqlOps.AddParams(_HT, "qtype", "Insert");
+                SqlOps.AddParams(_HT, "id", _ac.id);
+                SqlOps.AddParams(_HT, "code", _ac.code);
+                SqlOps.AddParams(_HT, "name", _ac.name);
+                SqlOps.AddParams(_HT, "remark", _ac.remark);
+                SqlOps.AddParams(_HT, "is_active", _ac.is_active);
+                SqlOps.AddParams(_HT, "added_by", _ac.added_by);
+                int id = SqlOps.ExNonQuery(SqlOps.EnumServer.NewWorkSoft, StoredProcedures.spRole, SqlOps.GetParams(_HT));
+                if (id != null)
+                {
+                    _SR.message = CacheData.GetConstant(Constant.InsertSuccess);
+                    _SR.data = id;
+                    return _SR;
+                }
+                _ER.message = CacheData.GetConstant(Constant.NoData);
+                return _ER;
+            }
+            catch (Exception ex)
+            {
+                _ER.message = ex.Message;
+                return _ER;
+            }
+
+        }
+        public static dynamic Delete(BAL.DataAccessLayer.Role_Mast _ac, BAL.FilterSetting _f)
+        {
+            try
+            {
+                DataSet _DS = new DataSet();
+                SqlOps.Clear();
+                Hashtable _HT = new Hashtable();
+                SqlOps.AddParams(_HT, "id", _ac.id);
+                SqlOps.AddParams(_HT, "qtype", "Delete");
+                int id = SqlOps.ExNonQuery(SqlOps.EnumServer.NewWorkSoft, StoredProcedures.spRole, SqlOps.GetParams());
+                if (id != -1)
+                {
+                    _SR.message = CacheData.GetConstant(Constant.DeleteSuccess);
+                    return _SR;
+                }
+                _ER.message = CacheData.GetConstant(Constant.DeleteError);
+                return _ER;
+            }
+            catch (Exception ex)
+            {
+                _ER.message = ex.Message;
+                return _ER;
+            }
+        }
     }
 }

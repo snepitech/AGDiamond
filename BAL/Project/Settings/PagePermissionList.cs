@@ -7,14 +7,14 @@ using SqlOps = ConfigLib.SqlServer.OperationSql;
 using Val = ConfigLib.Validation.BOValidation;
 namespace BAL.Project.Settings
 {
-    public class PageListMast
+    public class PagePermissionListMast
     {
         private static SuccessResponse _SR = new SuccessResponse();
         private static ErrorResponse _ER = new ErrorResponse();
         private static DataModelDataContext dc = new DataModelDataContext();
 
-        private static string mStrRole = "PageList";
-        public static dynamic Select(BAL.DataAccessLayer.PageList _ac, BAL.FilterSetting _f)
+        private static string mStrPage = "PagePermission";
+        public static dynamic Select(BAL.DataAccessLayer.PagePermission _ac, BAL.FilterSetting _f)
         {
             try
             {
@@ -27,12 +27,12 @@ namespace BAL.Project.Settings
                 if (_f.search != null) { SqlOps.AddParams(_HT, "search", _f.search); }
                 if (_f.sortColumn != null) { SqlOps.AddParams(_HT, "sortColumn", _f.sortColumn); }
                 if (_f.sortOrder != null) { SqlOps.AddParams(_HT, "sortOrder", _f.sortOrder); }
-                SqlOps.FillDataSet(SqlOps.EnumServer.NewWorkSoft, _DS, mStrRole, StoredProcedures.spPageList, SqlOps.GetParams(_HT), "");
-                if (Val.IsEmptyDataSet(_DS) && Val.DataTableIsEmpty(_DS.Tables[mStrRole]))
+                SqlOps.FillDataSet(SqlOps.EnumServer.NewWorkSoft, _DS, mStrPage, StoredProcedures.spPagePermissionList, SqlOps.GetParams(_HT), "");
+                if (Val.IsEmptyDataSet(_DS) && Val.DataTableIsEmpty(_DS.Tables[mStrPage]))
                 {
-                    var data = Helper.ConvertDataTableList<PageList>(_DS.Tables[mStrRole]).ToList();
+                    var data = Helper.ConvertDataTableList<PageList>(_DS.Tables[mStrPage]).ToList();
                     _SR.message = CacheData.GetConstant(Constant.InsertSuccess);
-                    _SR.data = new { count = _DS.Tables[mStrRole].Rows[0]["total_rows"], list = data };
+                    _SR.data = new { count = _DS.Tables[mStrPage].Rows[0]["total_rows"], list = data };
                     return _SR;
                 }
                 _ER.message = CacheData.GetConstant(Constant.NoData);
@@ -45,7 +45,7 @@ namespace BAL.Project.Settings
             }
         }
 
-        public static dynamic Insert(BAL.DataAccessLayer.PageList _ac, BAL.FilterSetting _f)
+        public static dynamic Insert(BAL.DataAccessLayer.PagePermission _ac, BAL.FilterSetting _f)
         {
             try
             {
@@ -54,17 +54,19 @@ namespace BAL.Project.Settings
                 Hashtable _HT = new Hashtable();
                 SqlOps.AddParams(_HT, "qtype", "Insert");
                 SqlOps.AddParams(_HT, "id", _ac.id);
-                SqlOps.AddParams(_HT, "page_name", _ac.page_name);
-                SqlOps.AddParams(_HT, "page_name_sub", _ac.page_name_sub);
-                SqlOps.AddParams(_HT, "page_name_sub_more", _ac.page_name_sub_more);
-                SqlOps.AddParams(_HT, "is_active", _ac.is_active);
+                SqlOps.AddParams(_HT, "page_id", _ac.page_id);
+                SqlOps.AddParams(_HT, "page_user_id", _ac.page_user_id);
+                SqlOps.AddParams(_HT, "is_view", _ac.is_view);
+                SqlOps.AddParams(_HT, "is_insert", _ac.is_insert);
+                SqlOps.AddParams(_HT, "is_update", _ac.is_update);
+                SqlOps.AddParams(_HT, "is_delete", _ac.is_delete);
                 SqlOps.AddParams(_HT, "added_by", _ac.added_by);
-                SqlOps.FillDataSet(SqlOps.EnumServer.NewWorkSoft, _DS, mStrRole, StoredProcedures.spPageList, SqlOps.GetParams(_HT), "");
-                if (Val.IsEmptyDataSet(_DS) && Val.DataTableIsEmpty(_DS.Tables[mStrRole]))
+                SqlOps.FillDataSet(SqlOps.EnumServer.NewWorkSoft, _DS, mStrPage, StoredProcedures.spPagePermissionList, SqlOps.GetParams(_HT), "");
+                if (Val.IsEmptyDataSet(_DS) && Val.DataTableIsEmpty(_DS.Tables[mStrPage]))
                 {
-                    var data = Helper.ConvertDataTableList<Role_Mast>(_DS.Tables[mStrRole]).ToList();
+                    var data = Helper.ConvertDataTableList<Role_Mast>(_DS.Tables[mStrPage]).ToList();
                     _SR.message = CacheData.GetConstant(Constant.InsertSuccess);
-                    _SR.data = new { count = _DS.Tables[mStrRole].Rows[0]["total_rows"], list = data };
+                    _SR.data = new { count = _DS.Tables[mStrPage].Rows[0]["total_rows"], list = data };
                     return _SR;
                 }
                 _ER.message = CacheData.GetConstant(Constant.NoData);
@@ -77,7 +79,7 @@ namespace BAL.Project.Settings
             }
 
         }
-        public static dynamic Delete(BAL.DataAccessLayer.PageList _ac, BAL.FilterSetting _f)
+        public static dynamic Delete(BAL.DataAccessLayer.PagePermission _ac, BAL.FilterSetting _f)
         {
             try
             {
@@ -86,7 +88,7 @@ namespace BAL.Project.Settings
                 Hashtable _HT = new Hashtable();
                 SqlOps.AddParams(_HT, "id", _ac.id);
                 SqlOps.AddParams(_HT, "qtype", "Delete");
-                int id = SqlOps.ExNonQuery(SqlOps.EnumServer.NewWorkSoft, StoredProcedures.spPageList, SqlOps.GetParams());
+                int id = SqlOps.ExNonQuery(SqlOps.EnumServer.NewWorkSoft, StoredProcedures.spPagePermissionList, SqlOps.GetParams());
                 if (id != -1)
                 {
                     _SR.message = CacheData.GetConstant(Constant.DeleteSuccess);

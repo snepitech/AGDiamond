@@ -58,12 +58,11 @@ namespace BAL.Project.Settings
                 SqlOps.AddParams(_HT, "remark", _ac.remark);
                 SqlOps.AddParams(_HT, "is_active", _ac.is_active);
                 SqlOps.AddParams(_HT, "added_by", _ac.added_by);
-                SqlOps.FillDataSet(SqlOps.EnumServer.NewWorkSoft, _DS, mStrRole, StoredProcedures.spRole, SqlOps.GetParams(_HT), "");
-                if (Val.IsEmptyDataSet(_DS) && Val.DataTableIsEmpty(_DS.Tables[mStrRole]))
+                int id = SqlOps.ExNonQuery(SqlOps.EnumServer.NewWorkSoft, StoredProcedures.spRole, SqlOps.GetParams(_HT));
+                if (id != null)
                 {
-                    var data = Helper.ConvertDataTableList<Role_Mast>(_DS.Tables[mStrRole]).ToList();
                     _SR.message = CacheData.GetConstant(Constant.InsertSuccess);
-                    _SR.data = new { count = _DS.Tables[mStrRole].Rows[0]["total_rows"], list = data };
+                    _SR.data = id;
                     return _SR;
                 }
                 _ER.message = CacheData.GetConstant(Constant.NoData);
@@ -85,15 +84,13 @@ namespace BAL.Project.Settings
                 Hashtable _HT = new Hashtable();
                 SqlOps.AddParams(_HT, "id", _ac.id);
                 SqlOps.AddParams(_HT, "qtype", "Delete");
-                SqlOps.FillDataSet(SqlOps.EnumServer.NewWorkSoft, _DS, mStrRole, StoredProcedures.spRole, SqlOps.GetParams(_HT), "");
-                if (Val.IsEmptyDataSet(_DS) && Val.DataTableIsEmpty(_DS.Tables[mStrRole]))
+                int id = SqlOps.ExNonQuery(SqlOps.EnumServer.NewWorkSoft, StoredProcedures.spRole, SqlOps.GetParams());
+                if (id != -1)
                 {
-                    var data = Helper.ConvertDataTableList<Role_Mast>(_DS.Tables[mStrRole]).ToList();
-                    _SR.message = CacheData.GetConstant(Constant.InsertSuccess);
-                    _SR.data = new { count = _DS.Tables[mStrRole].Rows[0]["total_rows"], list = data };
+                    _SR.message = CacheData.GetConstant(Constant.DeleteSuccess);
                     return _SR;
                 }
-                _ER.message = CacheData.GetConstant(Constant.NoData);
+                _ER.message = CacheData.GetConstant(Constant.DeleteError);
                 return _ER;
             }
             catch (Exception ex)

@@ -14,7 +14,7 @@ namespace AGDiamond.Project.Settings
 
         public JsonResult Insert(PageList _Page, BAL.FilterSetting _f)
         {
-            var Data = BAL.Project.Settings.PageListMast.Select(_Page, _f);
+            var Data = BAL.Project.Settings.PageListMast.Insert(_Page, _f);
             return Helper.JsonMax(Data);
         }
         public JsonResult Delete(PageList _Page, BAL.FilterSetting _f)

@@ -42,6 +42,9 @@ namespace BAL.DataAccessLayer
     partial void InsertPageList(PageList instance);
     partial void UpdatePageList(PageList instance);
     partial void DeletePageList(PageList instance);
+    partial void InsertPagePermission(PagePermission instance);
+    partial void UpdatePagePermission(PagePermission instance);
+    partial void DeletePagePermission(PagePermission instance);
     #endregion
 		
 		public DataModelDataContext() : 
@@ -103,6 +106,14 @@ namespace BAL.DataAccessLayer
 			get
 			{
 				return this.GetTable<PageList>();
+			}
+		}
+		
+		public System.Data.Linq.Table<PagePermission> PagePermissions
+		{
+			get
+			{
+				return this.GetTable<PagePermission>();
 			}
 		}
 	}
@@ -859,14 +870,6 @@ namespace BAL.DataAccessLayer
 		
 		private string _page_name_sub_more;
 		
-		private System.Nullable<bool> _is_view;
-		
-		private System.Nullable<bool> _is_insert;
-		
-		private System.Nullable<bool> _is_update;
-		
-		private System.Nullable<bool> _is_delete;
-		
 		private System.Nullable<bool> _is_active;
 		
 		private System.Nullable<int> _added_by;
@@ -889,14 +892,6 @@ namespace BAL.DataAccessLayer
     partial void Onpage_name_subChanged();
     partial void Onpage_name_sub_moreChanging(string value);
     partial void Onpage_name_sub_moreChanged();
-    partial void Onis_viewChanging(System.Nullable<bool> value);
-    partial void Onis_viewChanged();
-    partial void Onis_insertChanging(System.Nullable<bool> value);
-    partial void Onis_insertChanged();
-    partial void Onis_updateChanging(System.Nullable<bool> value);
-    partial void Onis_updateChanged();
-    partial void Onis_deleteChanging(System.Nullable<bool> value);
-    partial void Onis_deleteChanged();
     partial void Onis_activeChanging(System.Nullable<bool> value);
     partial void Onis_activeChanged();
     partial void Onadded_byChanging(System.Nullable<int> value);
@@ -914,7 +909,7 @@ namespace BAL.DataAccessLayer
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int id
 		{
 			get
@@ -990,6 +985,248 @@ namespace BAL.DataAccessLayer
 					this._page_name_sub_more = value;
 					this.SendPropertyChanged("page_name_sub_more");
 					this.Onpage_name_sub_moreChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_is_active", DbType="Bit")]
+		public System.Nullable<bool> is_active
+		{
+			get
+			{
+				return this._is_active;
+			}
+			set
+			{
+				if ((this._is_active != value))
+				{
+					this.Onis_activeChanging(value);
+					this.SendPropertyChanging();
+					this._is_active = value;
+					this.SendPropertyChanged("is_active");
+					this.Onis_activeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_added_by", DbType="Int")]
+		public System.Nullable<int> added_by
+		{
+			get
+			{
+				return this._added_by;
+			}
+			set
+			{
+				if ((this._added_by != value))
+				{
+					this.Onadded_byChanging(value);
+					this.SendPropertyChanging();
+					this._added_by = value;
+					this.SendPropertyChanged("added_by");
+					this.Onadded_byChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_edited_by", DbType="Int")]
+		public System.Nullable<int> edited_by
+		{
+			get
+			{
+				return this._edited_by;
+			}
+			set
+			{
+				if ((this._edited_by != value))
+				{
+					this.Onedited_byChanging(value);
+					this.SendPropertyChanging();
+					this._edited_by = value;
+					this.SendPropertyChanged("edited_by");
+					this.Onedited_byChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_insert_date", DbType="DateTime")]
+		public System.Nullable<System.DateTime> insert_date
+		{
+			get
+			{
+				return this._insert_date;
+			}
+			set
+			{
+				if ((this._insert_date != value))
+				{
+					this.Oninsert_dateChanging(value);
+					this.SendPropertyChanging();
+					this._insert_date = value;
+					this.SendPropertyChanged("insert_date");
+					this.Oninsert_dateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_update_date", DbType="DateTime")]
+		public System.Nullable<System.DateTime> update_date
+		{
+			get
+			{
+				return this._update_date;
+			}
+			set
+			{
+				if ((this._update_date != value))
+				{
+					this.Onupdate_dateChanging(value);
+					this.SendPropertyChanging();
+					this._update_date = value;
+					this.SendPropertyChanged("update_date");
+					this.Onupdate_dateChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.PagePermission")]
+	public partial class PagePermission : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private System.Nullable<int> _page_id;
+		
+		private System.Nullable<int> _page_user_id;
+		
+		private System.Nullable<bool> _is_view;
+		
+		private System.Nullable<bool> _is_insert;
+		
+		private System.Nullable<bool> _is_update;
+		
+		private System.Nullable<bool> _is_delete;
+		
+		private System.Nullable<int> _added_by;
+		
+		private System.Nullable<int> _edited_by;
+		
+		private System.Nullable<System.DateTime> _insert_date;
+		
+		private System.Nullable<System.DateTime> _update_date;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void Onpage_idChanging(System.Nullable<int> value);
+    partial void Onpage_idChanged();
+    partial void Onpage_user_idChanging(System.Nullable<int> value);
+    partial void Onpage_user_idChanged();
+    partial void Onis_viewChanging(System.Nullable<bool> value);
+    partial void Onis_viewChanged();
+    partial void Onis_insertChanging(System.Nullable<bool> value);
+    partial void Onis_insertChanged();
+    partial void Onis_updateChanging(System.Nullable<bool> value);
+    partial void Onis_updateChanged();
+    partial void Onis_deleteChanging(System.Nullable<bool> value);
+    partial void Onis_deleteChanged();
+    partial void Onadded_byChanging(System.Nullable<int> value);
+    partial void Onadded_byChanged();
+    partial void Onedited_byChanging(System.Nullable<int> value);
+    partial void Onedited_byChanged();
+    partial void Oninsert_dateChanging(System.Nullable<System.DateTime> value);
+    partial void Oninsert_dateChanged();
+    partial void Onupdate_dateChanging(System.Nullable<System.DateTime> value);
+    partial void Onupdate_dateChanged();
+    #endregion
+		
+		public PagePermission()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_page_id", DbType="Int")]
+		public System.Nullable<int> page_id
+		{
+			get
+			{
+				return this._page_id;
+			}
+			set
+			{
+				if ((this._page_id != value))
+				{
+					this.Onpage_idChanging(value);
+					this.SendPropertyChanging();
+					this._page_id = value;
+					this.SendPropertyChanged("page_id");
+					this.Onpage_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_page_user_id", DbType="Int")]
+		public System.Nullable<int> page_user_id
+		{
+			get
+			{
+				return this._page_user_id;
+			}
+			set
+			{
+				if ((this._page_user_id != value))
+				{
+					this.Onpage_user_idChanging(value);
+					this.SendPropertyChanging();
+					this._page_user_id = value;
+					this.SendPropertyChanged("page_user_id");
+					this.Onpage_user_idChanged();
 				}
 			}
 		}
@@ -1070,26 +1307,6 @@ namespace BAL.DataAccessLayer
 					this._is_delete = value;
 					this.SendPropertyChanged("is_delete");
 					this.Onis_deleteChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_is_active", DbType="Bit")]
-		public System.Nullable<bool> is_active
-		{
-			get
-			{
-				return this._is_active;
-			}
-			set
-			{
-				if ((this._is_active != value))
-				{
-					this.Onis_activeChanging(value);
-					this.SendPropertyChanging();
-					this._is_active = value;
-					this.SendPropertyChanged("is_active");
-					this.Onis_activeChanged();
 				}
 			}
 		}

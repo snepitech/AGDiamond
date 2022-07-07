@@ -42,5 +42,10 @@
         public static string spPageList = "USP_PageList";
 
         #endregion
+
+        #region PagePermissionList
+        public static string spPagePermissionList = "USP_PagePermissionList";
+
+        #endregion
     }
 }

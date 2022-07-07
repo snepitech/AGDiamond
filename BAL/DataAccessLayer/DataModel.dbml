@@ -40,15 +40,26 @@
   </Table>
   <Table Name="dbo.PageList" Member="PageLists">
     <Type Name="PageList">
-      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="page_name" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Column Name="page_name_sub" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Column Name="page_name_sub_more" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="is_active" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="added_by" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="edited_by" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="insert_date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="update_date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PagePermission" Member="PagePermissions">
+    <Type Name="PagePermission">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="page_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="page_user_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="is_view" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="is_insert" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="is_update" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="is_delete" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="is_active" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="added_by" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="edited_by" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="insert_date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />

@@ -1,0 +1,65 @@
+* {
+    margin: 0;
+    padding: 0;
+    color: black;
+    /* font-family: roboto; */
+    /* font-family: var(--regularFont); */
+}
+
+body {
+    background-color: white;
+    color: black;
+    scroll-behavior: smooth;
+    align-items: center;
+}
+
+.form-control:focus {
+    color: #212529;
+    background-color: #fff;
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: none !important;
+}
+
+.gcDBiC:hover {
+    background-color: rgb(229 219 219 / 37%) !important;
+}
+
+.jzGaAN {
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    box-sizing: border-box;
+    line-height: normal;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.jfrgbA {
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    box-sizing: border-box;
+    line-height: normal;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    word-break: break-word;
+}
+
+/* -------------- All Page Button -------------- */
+
+#saveBtn {
+    margin-left: 5px;
+}

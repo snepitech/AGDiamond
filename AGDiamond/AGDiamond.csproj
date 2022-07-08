@@ -255,6 +255,8 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\JsonDotNetValueProviderFactory.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Project\Settings\PageControlsController.cs" />
+    <Compile Include="Project\Settings\PagePermissionListController.cs" />
     <Compile Include="Project\Settings\PageListController.cs" />
     <Compile Include="Project\Settings\UserMastController.cs" />
     <Compile Include="Project\Settings\RoleMastController.cs" />

@@ -8,6 +8,9 @@ F:\LiveProjects\Projects\C#\AGDiamond\BAL\bin\Debug\Newtonsoft.Json.pdb
 F:\LiveProjects\Projects\C#\AGDiamond\BAL\bin\Debug\Newtonsoft.Json.xml
 F:\LiveProjects\Projects\C#\AGDiamond\BAL\obj\Debug\BAL.dll
 F:\LiveProjects\Projects\C#\AGDiamond\BAL\obj\Debug\BAL.pdb
+<<<<<<< HEAD
+F:\LiveProjects\Projects\C#\AGDiamond\BAL\obj\Debug\BAL.csprojResolveAssemblyReference.cache
+=======
 E:\Project\AGDiamond\BAL\bin\Debug\BAL.dll.config
 E:\Project\AGDiamond\BAL\bin\Debug\BAL.dll
 E:\Project\AGDiamond\BAL\bin\Debug\BAL.pdb
@@ -19,3 +22,4 @@ E:\Project\AGDiamond\BAL\bin\Debug\Newtonsoft.Json.xml
 E:\Project\AGDiamond\BAL\obj\Debug\BAL.csprojResolveAssemblyReference.cache
 E:\Project\AGDiamond\BAL\obj\Debug\BAL.dll
 E:\Project\AGDiamond\BAL\obj\Debug\BAL.pdb
+>>>>>>> 4a4ef26528058838ef10521bc86d391d33987279

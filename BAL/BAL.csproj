@@ -209,6 +209,8 @@
     <Compile Include="Helper\DyanamicJson.cs" />
     <Compile Include="Helper\Helper.cs" />
     <Compile Include="Helper\Response.cs" />
+    <Compile Include="Project\Settings\PageControls.cs" />
+    <Compile Include="Project\Settings\PagePermissionList.cs" />
     <Compile Include="Project\Settings\PageList.cs" />
     <Compile Include="Project\Settings\User.cs" />
     <Compile Include="Project\Settings\Role.cs" />

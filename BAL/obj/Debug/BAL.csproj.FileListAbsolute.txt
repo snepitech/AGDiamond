@@ -8,3 +8,4 @@ F:\LiveProjects\Projects\C#\AGDiamond\BAL\bin\Debug\Newtonsoft.Json.pdb
 F:\LiveProjects\Projects\C#\AGDiamond\BAL\bin\Debug\Newtonsoft.Json.xml
 F:\LiveProjects\Projects\C#\AGDiamond\BAL\obj\Debug\BAL.dll
 F:\LiveProjects\Projects\C#\AGDiamond\BAL\obj\Debug\BAL.pdb
+F:\LiveProjects\Projects\C#\AGDiamond\BAL\obj\Debug\BAL.csprojResolveAssemblyReference.cache

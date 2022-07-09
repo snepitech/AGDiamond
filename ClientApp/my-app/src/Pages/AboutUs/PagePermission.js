@@ -125,9 +125,8 @@ export default function PagePermission() {
     const numbers = ['Save', 'Role', 'User', 'Page', 'Reset'];
 
     const ButtonFn = (e) => {
-        if(e == 'Page')
+        if(e === 'Page')
         {
-            alert("Page List");
             window.open('./PageList');
         }
     }

@@ -12,5 +12,10 @@ export const API_URLS = {
     },
     PageList: {
         Select: `${serviceUrl}/PageList/Select`,
+    },
+    PageControls: {
+        Select: `${serviceUrl}/PageControls/Select`,
+        Insert: `${serviceUrl}/PageControls/Insert`,
+        Delete: `${serviceUrl}/PageControls/Delete`
     }
 }

@@ -11,21 +11,3 @@ body {
 .nametable {
     width: 180px !important;
 }
-
-.checkBox {
-    width: 1.2em;
-    height: 1.2em;
-    background-color: white;
-    border-radius: 50%;
-    vertical-align: middle;
-    border: 1px solid black;
-    appearance: none;
-    -webkit-appearance: none;
-    outline: none; 
-    cursor: pointer;
-}
-
-.checkBox:checked {
-    background-color: green;
-    border-color: white;
-}

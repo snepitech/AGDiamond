@@ -7,6 +7,8 @@
 }
 
 body {
+    margin: 0;
+    padding: 0;
     background-color: white;
     color: black;
     scroll-behavior: smooth;
@@ -59,7 +61,26 @@ body {
 }
 
 /* -------------- All Page Button -------------- */
-
 #saveBtn {
     margin-left: 5px;
+}
+
+/* -------------- All Page Check Box -------------- */
+
+.checkBox {
+    width: 15px;
+    height: 15px;
+    background-color: white;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid #317159;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none; 
+    cursor: pointer;
+}
+
+.checkBox:checked {
+    background-color: #75CAAA;
+    border-color: #75CAAA;
 }

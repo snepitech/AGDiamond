@@ -22,6 +22,7 @@ namespace BAL.Project.Settings
                 SqlOps.Clear();
                 Hashtable _HT = new Hashtable();
                 SqlOps.AddParams(_HT, "qtype", "Select");
+                if (_ac.page_id > 0) { SqlOps.AddParams(_HT, "page_id", _ac.page_id); }
                 if (_f.page > 0) { SqlOps.AddParams(_HT, "page", _f.page); }
                 if (_f.limit > 0) { SqlOps.AddParams(_HT, "limit", _f.limit); }
                 if (_f.search != null) { SqlOps.AddParams(_HT, "search", _f.search); }

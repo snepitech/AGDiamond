@@ -5,12 +5,35 @@ import Axios from 'axios';
 import Save from '../Componet/Button/BtnSave';
 import DataTable from '../Componet/Data-Table/DataTable';
 import editImg from '../images/edit.png';
+import removeImg from '../images/remove.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { API_URLS } from "../Componet/API/allAPI";
 const { PageList } = API_URLS;
 
 async function addMaster(credentials) {
     return fetch(PageList.Insert, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            "Accept": "application/json"
+        },
+        body: JSON.stringify(credentials)
+    })
+        .then(data => data.json());
+}
+async function updateMaster(credentials) {
+    return fetch(PageList.Update, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            "Accept": "application/json"
+        },
+        body: JSON.stringify(credentials)
+    })
+        .then(data => data.json());
+}
+async function deleteMaster(credentials) {
+    return fetch(PageList.Delete, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -74,22 +97,25 @@ export default function Pagelist() {
         {
             name: 'Action',
             Button: true,
-            cell: (d) => <><img src={editImg} width={15} onClick={() => editFn(d)} /> </>,
+            cell: (d) => <><img src={editImg} width={13} onClick={() => editFn(d)} /><img src={removeImg} width={13} onClick={() => deleteFn(d)} className='ms-2' /></>,
         },
     ]
 
     const refreshFn = () => {
+        fetchPageList();
         setmodal(false);
         setName("");
         setNamesub1("");
         setNamesub2("");
     }
 
+    const [id, setID] = useState();
     const [name, setName] = useState([]);
     const [namesub1, setNamesub1] = useState([]);
     const [namesub2, setNamesub2] = useState([]);
 
-    const editFn = (row) => {
+    const editFn = async (row) => {
+        setID(row.id);
         setName(row.page_name);
         setNamesub1(row.page_name_sub);
         setNamesub2(row.page_name_sub_more);
@@ -97,10 +123,41 @@ export default function Pagelist() {
         setmodal(true);
     }
 
-    const addFn = () => { setmodal(!modal); }
+    const updateFn = async () => {
+        let is_active = (isActive) ? 1 : 0;
+        const res = await updateMaster({
+            id,
+            name, namesub1, namesub2, is_active
+        });
+        if (res) {
+            if (res.flag) {
+                fetchPageList();
+                setmodal(false);
+            }
+            else {
+                alert(res.message);
+            }
+        }
+    }
+
+    const deleteFn = async (row) => {
+        if (row.id) {
+            alert(row.id);
+            const res = await deleteMaster({ id: row.id });
+            alert(res.flag);
+            if (res.flag) {
+                fetchPageList();
+            }
+            else {
+                alert(res.message);
+            }
+        }
+    }
+
+    const addFn = () => { setmodal(true); }
 
     const saveFn = async (e) => {
-		let is_active = (isActive) ? 1 : 0;
+        let is_active = (isActive) ? 1 : 0;
 
         const res = await addMaster({
             name, namesub1, namesub2, is_active
@@ -132,7 +189,7 @@ export default function Pagelist() {
                     <div className='col-lg-3 col-6 col-md-6 col-xs-12'>
                         <Save label="Refresh" primaryBtn onClick={refreshFn} />
                         <Save label="Add" primaryBtn onClick={addFn} />
-                        <Save label="Save" primaryBtn onClick={() => saveFn(false)} />
+                        <Save label="Save" primaryBtn onClick={() => saveFn()} />
                         <Save label="Save Button" primaryBtn />
                         <Save label="Reset" primaryBtn />
                     </div>
@@ -144,6 +201,7 @@ export default function Pagelist() {
                             <div className='ms-3'>Page Sub Name : <input type="text" value={namesub1} onChange={e => setNamesub1(e.target.value)} /></div>
                             <div className='ms-3'>Page Sub Name : <input type="text" value={namesub2} onChange={e => setNamesub2(e.target.value)} /></div>
                             <div className='ms-5 mt-1'><input type="checkbox" checked={isActive} onChange={() => { }} className="checkBox me-1" />Active</div>
+                            <Save label="Update" className='ms-5' primaryBtn onClick={updateFn} />
                         </div>
                     </div>
                 )}

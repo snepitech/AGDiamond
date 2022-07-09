@@ -50,6 +50,11 @@ export default function Pagelist() {
     const [modal, setmodal] = useState(false);
     const [isActive, setIsActive] = useState(true);
 
+    const [id, setID] = useState();
+    const [name, setName] = useState([]);
+    const [namesub1, setNamesub1] = useState([]);
+    const [namesub2, setNamesub2] = useState([]);
+
     const fetchPageList = async () => {
         let obj = {};
         const { data } = await Axios.post(
@@ -60,7 +65,6 @@ export default function Pagelist() {
             setPageList(list);
         }
     }
-
     useEffect(() => {
         fetchPageList();
     }, []);
@@ -109,11 +113,6 @@ export default function Pagelist() {
         setNamesub2("");
     }
 
-    const [id, setID] = useState();
-    const [name, setName] = useState([]);
-    const [namesub1, setNamesub1] = useState([]);
-    const [namesub2, setNamesub2] = useState([]);
-
     const editFn = async (row) => {
         setID(row.id);
         setName(row.page_name);
@@ -156,7 +155,7 @@ export default function Pagelist() {
 
     const addFn = () => { setmodal(true); }
 
-    const saveFn = async (e) => {
+    const saveFn = async e => {
         let is_active = (isActive) ? 1 : 0;
 
         const res = await addMaster({
@@ -174,7 +173,7 @@ export default function Pagelist() {
                 fetchPageList();
             }
             else {
-                alert("Save");
+                alert(res.message);
             }
         }
     }
@@ -189,8 +188,8 @@ export default function Pagelist() {
                     <div className='col-lg-3 col-6 col-md-6 col-xs-12'>
                         <Save label="Refresh" primaryBtn onClick={refreshFn} />
                         <Save label="Add" primaryBtn onClick={addFn} />
-                        <Save label="Save" primaryBtn onClick={() => saveFn()} />
-                        <Save label="Save Button" primaryBtn />
+                        <Save label="Save" primaryBtn onClick={saveFn} />
+                        {/* <Save label="Save Button" primaryBtn /> */}
                         <Save label="Reset" primaryBtn />
                     </div>
                 </div>
@@ -200,7 +199,7 @@ export default function Pagelist() {
                             <div>Page Name : <input type="text" value={name} onChange={e => setName(e.target.value)} /></div>
                             <div className='ms-3'>Page Sub Name : <input type="text" value={namesub1} onChange={e => setNamesub1(e.target.value)} /></div>
                             <div className='ms-3'>Page Sub Name : <input type="text" value={namesub2} onChange={e => setNamesub2(e.target.value)} /></div>
-                            <div className='ms-5 mt-1'><input type="checkbox" checked={isActive} onChange={() => { }} className="checkBox me-1" />Active</div>
+                            <div className='ms-5 mt-1'><input type="checkbox" checked={isActive} className="checkBox me-1" />Active</div>
                             <Save label="Update" className='ms-5' primaryBtn onClick={updateFn} />
                         </div>
                     </div>

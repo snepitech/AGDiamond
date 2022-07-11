@@ -81,11 +81,9 @@ namespace BAL.Project.Settings
         {
             try
             {
-                DataSet _DS = new DataSet();
                 SqlOps.Clear();
-                Hashtable _HT = new Hashtable();
-                SqlOps.AddParams(_HT, "id", _ac.id);
-                SqlOps.AddParams(_HT, "qtype", "Delete");
+                SqlOps.AddParams("id", _ac.id);
+                SqlOps.AddParams("qtype", "Delete");
                 int id = SqlOps.ExNonQuery(SqlOps.EnumServer.NewWorkSoft, StoredProcedures.spPageList, SqlOps.GetParams());
                 if (id != -1)
                 {

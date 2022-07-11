@@ -6,6 +6,7 @@ import Save from '../Componet/Button/BtnSave';
 import DataTable from '../Componet/Data-Table/DataTable';
 import editImg from '../images/edit.png';
 import removeImg from '../images/remove.png';
+import Add from '../images/Add.png';
 import { API_URLS } from "../Componet/API/allAPI";
 const { PageList, PageControls } = API_URLS;
 
@@ -42,18 +43,44 @@ async function deleteMaster(credentials) {
     })
         .then(data => data.json());
 }
+async function addBtn(credentials) {
+    return fetch(PageControls.Insert, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            "Accept": "application/json"
+        },
+        body: JSON.stringify(credentials)
+    })
+        .then(data => data.json());
+}
+async function deleteBtn(credentials) {
+    return fetch(PageControls.Delete, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            "Accept": "application/json"
+        },
+        body: JSON.stringify(credentials)
+    })
+        .then(data => data.json());
+}
 
 export default function Pagelist() {
 
     const [pagelist, setPageList] = useState([]);
     const [btnlist, setbtnList] = useState([]);
     const [modal, setmodal] = useState(false);
+    const [Btnmodal, setBtnmodal] = useState(false);
     const [isActive, setIsActive] = useState(true);
 
     const [id, setID] = useState();
     const [name, setName] = useState([]);
-    const [namesub1, setNamesub1] = useState([]);
-    const [namesub2, setNamesub2] = useState([]);
+    const [namesub1, setNamesub1] = useState();
+    const [namesub2, setNamesub2] = useState();
+    const [btnid, setbtnid] = useState();
+    const [btnname, setbtnname] = useState();
+    const [btnmessage, setMessage] = useState('');
 
     const fetchPageList = async () => {
         let obj = {};
@@ -69,9 +96,8 @@ export default function Pagelist() {
     const fatchbtnList = async (row) => {
         let obj = {};
         const { data } = await Axios.post(
-            PageControls.Select, obj
+            PageControls.Select, { id }
         );
-        alert(row.id);
         if (data.data != null) {
             const list = data.data.list;
             setbtnList(list);
@@ -121,15 +147,27 @@ export default function Pagelist() {
     const btncolums = [
         {
             name: 'No',
-            selector: 'id',
+            selector: 'page_id',
             sortable: true,
             width: 'auto',
         },
         {
-            name: 'Name',
-            selector: 'page_name',
+            name: 'Button Name',
+            selector: 'button_name',
             sortable: true,
             width: 'auto',
+        },
+        {
+            name: 'Button Color',
+            selector: 'button_color',
+            sortable: true,
+            width: 'auto',
+        },
+        {
+            name: 'Action',
+            Button: true,
+            cell: (d) => <><img src={removeImg} width={13} onClick={() => deleteFn1(d)} className='ms-2' /></>,
+            width: '50px',
         },
     ]
 
@@ -142,13 +180,13 @@ export default function Pagelist() {
     }
 
     const editFn = async (row) => {
+        fatchbtnList();
         setID(row.id);
         setName(row.page_name);
         setNamesub1(row.page_name_sub);
         setNamesub2(row.page_name_sub_more);
         setIsActive(row.is_active);
         setmodal(true);
-        fatchbtnList();
     }
 
     const updateFn = async () => {
@@ -182,6 +220,19 @@ export default function Pagelist() {
         }
     }
 
+    const deleteFn1 = async (row) => {
+        if (row.id) {
+            const res = await deleteBtn({ id: row.page_id });
+            alert(row.page_id);
+            if (res.flag) {
+                fatchbtnList();
+            }
+            else {
+                alert(res.message);
+            }
+        }
+    }
+
     const addFn = () => { setmodal(true); }
 
     const saveFn = async e => {
@@ -207,6 +258,34 @@ export default function Pagelist() {
         }
     }
 
+    const handleChange = event => {
+        const result = event.target.value.replace(/[^a-z]/gi, '');
+        setMessage(result);
+    };
+
+    const addBtnFn = (row) => { 
+        setBtnmodal(true); 
+        setbtnid(row.page_id);
+        btnname(btnmessage);
+    }
+
+    const closeBtnFn = async (e) => { 
+        setBtnmodal(false); 
+        const res = await addBtn({
+            btnid, btnname,
+        });
+        if (res) {
+            if (res.flag) {
+                setmodal(false);
+                refreshFn();
+            }
+            else {
+                alert(res.message);
+            }
+        }
+        fatchbtnList();
+    }
+
     return (
         <>
             <div className='mt-5 pt-3 container-fluid'>
@@ -214,7 +293,7 @@ export default function Pagelist() {
                     <div className='col-lg-1 col-6 col-md-6 col-xs-12'>
                         <h5 className='text-start'>Page List</h5>
                     </div>
-                    <div className='col-lg-3 col-6 col-md-6 col-xs-12'>
+                    <div className='col-lg-2 col-6 col-md-6 col-xs-12 justify-content-end'>
                         <Save label="Refresh" primaryBtn onClick={refreshFn} />
                         <Save label="Add" primaryBtn onClick={addFn} />
                         <Save label="Save" primaryBtn onClick={saveFn} />
@@ -239,7 +318,19 @@ export default function Pagelist() {
                     </div>
                     {modal && (
                         <div className='col-xl-3 col-lg-6 col-12 col-md-9 col-sm-12 border'>
+                            <div className='d-flex align-items-center justify-content-end'>
+                                <p className='m-2 me-2'>Add Button</p>
+                                <img src={Add} width={20} style={{ cursor: "pointer" }} onClick={addBtnFn} onChange={e => setbtnname(e.target.value)} />
+                            </div>
                             <DataTable columns={btncolums} data={btnlist} />
+                        </div>
+                    )}
+                    {Btnmodal && (
+                        <div className='d-flex align-items-start justify-content-center'>
+                            <div>
+                                <input type='text' placeholder='Button Name' value={btnmessage} onChange={handleChange} />
+                            </div>
+                            <Save label="Add Button" className='ms-5' primaryBtn onClick={closeBtnFn} />
                         </div>
                     )}
                 </div>

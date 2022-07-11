@@ -79,7 +79,6 @@ export default function Pagelist() {
     const [namesub1, setNamesub1] = useState();
     const [namesub2, setNamesub2] = useState();
     const [btnid, setbtnid] = useState();
-    const [btnname, setbtnname] = useState();
     const [btnmessage, setMessage] = useState('');
 
     const fetchPageList = async () => {
@@ -147,7 +146,7 @@ export default function Pagelist() {
     const btncolums = [
         {
             name: 'No',
-            selector: 'page_id',
+            selector: 'id',
             sortable: true,
             width: 'auto',
         },
@@ -180,13 +179,13 @@ export default function Pagelist() {
     }
 
     const editFn = async (row) => {
-        fatchbtnList();
         setID(row.id);
         setName(row.page_name);
         setNamesub1(row.page_name_sub);
         setNamesub2(row.page_name_sub_more);
         setIsActive(row.is_active);
         setmodal(true);
+        fatchbtnList();
     }
 
     const updateFn = async () => {
@@ -200,7 +199,6 @@ export default function Pagelist() {
             if (res.flag) {
                 fetchPageList();
                 setmodal(false);
-                editFn();
             }
             else {
                 alert(res.message);
@@ -222,8 +220,8 @@ export default function Pagelist() {
 
     const deleteFn1 = async (row) => {
         if (row.id) {
-            const res = await deleteBtn({ id: row.page_id });
-            alert(row.page_id);
+            const res = await deleteBtn({ id: row.id });
+            alert(row.id);
             if (res.flag) {
                 fatchbtnList();
             }
@@ -239,23 +237,24 @@ export default function Pagelist() {
         let is_active = (isActive) ? 1 : 0;
 
         const res = await addMaster({
-            name, namesub1, namesub2, is_active
+            name, namesub1, namesub2
         });
-        if (res) {
-            if (res.flag) {
-                if (e) {
-                    setmodal(true);
-                }
-                else {
-                    setmodal(false);
-                }
-                refreshFn();
-                fetchPageList();
-            }
-            else {
-                alert(res.message);
-            }
-        }
+        alert(res);
+        // if (res) {
+        //     if (res.flag) {
+        //         if (e) {
+        //             setmodal(true);
+        //         }
+        //         else {
+        //             setmodal(false);
+        //         }
+        //         refreshFn();
+        //         fetchPageList();
+        //     }
+        //     else {
+        //         alert(res.message);
+        //     }
+        // }
     }
 
     const handleChange = event => {
@@ -265,15 +264,13 @@ export default function Pagelist() {
 
     const addBtnFn = (row) => { 
         setBtnmodal(true); 
-        setbtnid(row.page_id);
-        btnname(btnmessage);
+        setMessage(row.button_name);
+        setbtnid(row.id);
     }
 
     const closeBtnFn = async (e) => { 
-        setBtnmodal(false); 
-        const res = await addBtn({
-            btnid, btnname,
-        });
+        const res = await addBtn({ id, btnmessage });
+        alert(btnmessage);
         if (res) {
             if (res.flag) {
                 setmodal(false);
@@ -284,6 +281,7 @@ export default function Pagelist() {
             }
         }
         fatchbtnList();
+        setBtnmodal(false);
     }
 
     return (
@@ -320,7 +318,7 @@ export default function Pagelist() {
                         <div className='col-xl-3 col-lg-6 col-12 col-md-9 col-sm-12 border'>
                             <div className='d-flex align-items-center justify-content-end'>
                                 <p className='m-2 me-2'>Add Button</p>
-                                <img src={Add} width={20} style={{ cursor: "pointer" }} onClick={addBtnFn} onChange={e => setbtnname(e.target.value)} />
+                                <img src={Add} width={20} style={{ cursor: "pointer" }} onClick={addBtnFn} />
                             </div>
                             <DataTable columns={btncolums} data={btnlist} />
                         </div>

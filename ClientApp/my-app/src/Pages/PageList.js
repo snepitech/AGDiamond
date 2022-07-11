@@ -6,9 +6,8 @@ import Save from '../Componet/Button/BtnSave';
 import DataTable from '../Componet/Data-Table/DataTable';
 import editImg from '../images/edit.png';
 import removeImg from '../images/remove.png';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { API_URLS } from "../Componet/API/allAPI";
-const { PageList } = API_URLS;
+const { PageList, PageControls } = API_URLS;
 
 async function addMaster(credentials) {
     return fetch(PageList.Insert, {
@@ -47,6 +46,7 @@ async function deleteMaster(credentials) {
 export default function Pagelist() {
 
     const [pagelist, setPageList] = useState([]);
+    const [btnlist, setbtnList] = useState([]);
     const [modal, setmodal] = useState(false);
     const [isActive, setIsActive] = useState(true);
 
@@ -64,7 +64,20 @@ export default function Pagelist() {
             const list = data.data.list;
             setPageList(list);
         }
+        fatchbtnList();
     }
+
+    const fatchbtnList = async () => {
+        let obj = {};
+        const { data } = await Axios.post(
+            PageControls.Select, obj
+        );
+        if (data.data != null) {
+            const list = data.data.list;
+            setbtnList(list);
+        }
+    }
+
     useEffect(() => {
         fetchPageList();
     }, []);
@@ -105,6 +118,15 @@ export default function Pagelist() {
         },
     ]
 
+    const btncolums = [
+        {
+            name: 'No',
+            selector: 'id',
+            sortable: true,
+            width: 'auto',
+        },
+    ]
+
     const refreshFn = () => {
         fetchPageList();
         setmodal(false);
@@ -120,10 +142,12 @@ export default function Pagelist() {
         setNamesub2(row.page_name_sub_more);
         setIsActive(row.is_active);
         setmodal(true);
+        fatchbtnList();
     }
 
     const updateFn = async () => {
         let is_active = (isActive) ? 1 : 0;
+        alert(isActive);
         const res = await updateMaster({
             id,
             name, namesub1, namesub2, is_active
@@ -132,6 +156,7 @@ export default function Pagelist() {
             if (res.flag) {
                 fetchPageList();
                 setmodal(false);
+                editFn();
             }
             else {
                 alert(res.message);
@@ -199,7 +224,7 @@ export default function Pagelist() {
                             <div>Page Name : <input type="text" value={name} onChange={e => setName(e.target.value)} /></div>
                             <div className='ms-3'>Page Sub Name : <input type="text" value={namesub1} onChange={e => setNamesub1(e.target.value)} /></div>
                             <div className='ms-3'>Page Sub Name : <input type="text" value={namesub2} onChange={e => setNamesub2(e.target.value)} /></div>
-                            <div className='ms-5 mt-1'><input type="checkbox" checked={isActive} className="checkBox me-1" />Active</div>
+                            <div className='ms-5 mt-1'><input type="checkbox" checked={setIsActive} className="checkBox me-1" />Active</div>
                             <Save label="Update" className='ms-5' primaryBtn onClick={updateFn} />
                         </div>
                     </div>
@@ -208,9 +233,11 @@ export default function Pagelist() {
                     <div className='col-xl-4 col-lg-6 col-12 col-md-9 col-sm-12 border'>
                         <DataTable columns={colums} data={pagelist} />
                     </div>
-                    {/* <div className='col-xl-4 col-lg-6 col-12 col-md-9 col-sm-12 border'>
-                        <DataTable columns={colums} data={pagelist} />
-                    </div> */}
+                    {modal && (
+                        <div className='col-xl-4 col-lg-6 col-12 col-md-9 col-sm-12 border'>
+                            <DataTable columns={btncolums} data={btnlist} />
+                        </div>
+                    )}
                 </div>
             </div>
         </>

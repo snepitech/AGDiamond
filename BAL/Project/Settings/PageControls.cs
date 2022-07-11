@@ -31,7 +31,7 @@ namespace BAL.Project.Settings
                 SqlOps.FillDataSet(SqlOps.EnumServer.NewWorkSoft, _DS, mStrPageControls, StoredProcedures.spPageControList, SqlOps.GetParams(_HT), "");
                 if (Val.IsEmptyDataSet(_DS) && Val.DataTableIsEmpty(_DS.Tables[mStrPageControls]))
                 {
-                    var data = Helper.ConvertDataTableList<PageList>(_DS.Tables[mStrPageControls]).ToList();
+                    var data = Helper.ConvertDataTableList<PageControl>(_DS.Tables[mStrPageControls]).ToList();
                     _SR.message = CacheData.GetConstant(Constant.InsertSuccess);
                     _SR.data = new { count = _DS.Tables[mStrPageControls].Rows[0]["total_rows"], list = data };
                     return _SR;

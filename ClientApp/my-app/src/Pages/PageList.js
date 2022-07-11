@@ -64,14 +64,14 @@ export default function Pagelist() {
             const list = data.data.list;
             setPageList(list);
         }
-        fatchbtnList();
     }
 
-    const fatchbtnList = async () => {
+    const fatchbtnList = async (row) => {
         let obj = {};
         const { data } = await Axios.post(
             PageControls.Select, obj
         );
+        alert(row.id);
         if (data.data != null) {
             const list = data.data.list;
             setbtnList(list);
@@ -125,6 +125,12 @@ export default function Pagelist() {
             sortable: true,
             width: 'auto',
         },
+        {
+            name: 'Name',
+            selector: 'page_name',
+            sortable: true,
+            width: 'auto',
+        },
     ]
 
     const refreshFn = () => {
@@ -166,9 +172,7 @@ export default function Pagelist() {
 
     const deleteFn = async (row) => {
         if (row.id) {
-            alert(row.id);
             const res = await deleteMaster({ id: row.id });
-            alert(res.flag);
             if (res.flag) {
                 fetchPageList();
             }
@@ -234,7 +238,7 @@ export default function Pagelist() {
                         <DataTable columns={colums} data={pagelist} />
                     </div>
                     {modal && (
-                        <div className='col-xl-4 col-lg-6 col-12 col-md-9 col-sm-12 border'>
+                        <div className='col-xl-3 col-lg-6 col-12 col-md-9 col-sm-12 border'>
                             <DataTable columns={btncolums} data={btnlist} />
                         </div>
                     )}

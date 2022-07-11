@@ -125,8 +125,7 @@ export default function PagePermission() {
     const numbers = ['Save', 'Role', 'User', 'Page', 'Reset'];
 
     const ButtonFn = (e) => {
-        if(e === 'Page')
-        {
+        if (e === 'Page') {
             window.open('./PageList');
         }
     }
@@ -152,7 +151,7 @@ export default function PagePermission() {
                 </div>
                 <div className='row align-items-center justify-content-between'>
                     <div className='col-lg-2 col-12 col-md-6'>
-                        <select className='form-control' onChange={e => getUserList(e.target.value)} >
+                        <select className='form-control' onChange={e => getUserList(e.target.value)}>
                             <option value="0">Select Role</option>
                             {usermasterList.map((user, i) =>
                                 <option key={user.id} value={user.id} >{user.name}</option>
@@ -177,7 +176,6 @@ export default function PagePermission() {
                     </div>
                 </div>
             </div>
-
         </>
     )
 }

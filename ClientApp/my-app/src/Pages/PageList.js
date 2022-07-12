@@ -44,6 +44,7 @@ async function deleteMaster(credentials) {
         .then(data => data.json());
 }
 async function addBtn(credentials) {
+    
     return fetch(PageControls.Insert, {
         method: 'POST',
         headers: {
@@ -133,7 +134,7 @@ export default function Pagelist() {
         {
             name: 'Is Active',
             selector: 'is_active',
-            cell: (d) => <><input type="checkbox" checked={isActive} className="checkBox" /></>,
+            cell: (d) => <><input type="checkbox" checked={d.is_active} className="checkBox" /></>,
             width: '100px',
         },
         {
@@ -190,10 +191,13 @@ export default function Pagelist() {
 
     const updateFn = async () => {
         let is_active = (isActive) ? 1 : 0;
+        let page_name = name;
+        let page_name_sub = namesub1;
+        let page_name_sub_more = namesub2;
         alert(isActive);
         const res = await updateMaster({
             id,
-            name, namesub1, namesub2, is_active
+            page_name, page_name_sub, page_name_sub_more, is_active
         });
         if (res) {
             if (res.flag) {
@@ -235,26 +239,28 @@ export default function Pagelist() {
 
     const saveFn = async e => {
         let is_active = (isActive) ? 1 : 0;
-
+        let page_name = name;
+        let page_name_sub = namesub1;
+        let page_name_sub_more = namesub2;
         const res = await addMaster({
-            name, namesub1, namesub2
+            id, 
+            page_name, page_name_sub, page_name_sub_more, is_active
         });
-        alert(res);
-        // if (res) {
-        //     if (res.flag) {
-        //         if (e) {
-        //             setmodal(true);
-        //         }
-        //         else {
-        //             setmodal(false);
-        //         }
-        //         refreshFn();
-        //         fetchPageList();
-        //     }
-        //     else {
-        //         alert(res.message);
-        //     }
-        // }
+        if (res) {
+            if (res.flag) {
+                if (e) {
+                    setmodal(true);
+                }
+                else {
+                    setmodal(false);
+                }
+                refreshFn();
+                fetchPageList();
+            }
+            else {
+                alert(res.message);
+            }
+        }
     }
 
     const handleChange = event => {
@@ -268,9 +274,9 @@ export default function Pagelist() {
         setbtnid(row.id);
     }
 
-    const closeBtnFn = async (e) => { 
-        const res = await addBtn({ id, btnmessage });
-        alert(btnmessage);
+    const addnewbtnFn = async (e) => { 
+        let BUTTON_NAME = btnmessage; 
+        const res = await addBtn({ id, BUTTON_NAME });
         if (res) {
             if (res.flag) {
                 setmodal(false);
@@ -291,7 +297,7 @@ export default function Pagelist() {
                     <div className='col-lg-1 col-6 col-md-6 col-xs-12'>
                         <h5 className='text-start'>Page List</h5>
                     </div>
-                    <div className='col-lg-2 col-6 col-md-6 col-xs-12 justify-content-end'>
+                    <div className='col-lg-2 col-6 col-md-6 col-xs-12 text-end justify-content-center'>
                         <Save label="Refresh" primaryBtn onClick={refreshFn} />
                         <Save label="Add" primaryBtn onClick={addFn} />
                         <Save label="Save" primaryBtn onClick={saveFn} />
@@ -305,7 +311,7 @@ export default function Pagelist() {
                             <div>Page Name : <input type="text" value={name} onChange={e => setName(e.target.value)} /></div>
                             <div className='ms-3'>Page Sub Name : <input type="text" value={namesub1} onChange={e => setNamesub1(e.target.value)} /></div>
                             <div className='ms-3'>Page Sub Name : <input type="text" value={namesub2} onChange={e => setNamesub2(e.target.value)} /></div>
-                            <div className='ms-5 mt-1'><input type="checkbox" checked={setIsActive} className="checkBox me-1" />Active</div>
+                            <div className='ms-5 mt-1'><input type="checkbox" checked={isActive} className="checkBox me-1" />Active</div>
                             <Save label="Update" className='ms-5' primaryBtn onClick={updateFn} />
                         </div>
                     </div>
@@ -328,7 +334,7 @@ export default function Pagelist() {
                             <div>
                                 <input type='text' placeholder='Button Name' value={btnmessage} onChange={handleChange} />
                             </div>
-                            <Save label="Add Button" className='ms-5' primaryBtn onClick={closeBtnFn} />
+                            <Save label="Add Button" className='ms-5' primaryBtn onClick={addnewbtnFn} />
                         </div>
                     )}
                 </div>

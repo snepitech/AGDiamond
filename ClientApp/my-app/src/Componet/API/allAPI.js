@@ -6,6 +6,9 @@ export const API_URLS = {
     },
     RoleMast: {
         Select: `${serviceUrl}/RoleMast/Select`,
+        Insert: `${serviceUrl}/RoleMast/Insert`,
+        Update: `${serviceUrl}/RoleMast/Update`,
+        Delete: `${serviceUrl}/RoleMast/Delete`,
     },
     User: {
         Select: `${serviceUrl}/UserMast/Select`,

@@ -3,10 +3,11 @@ import '../../Componet/commen.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Axios from 'axios';
 import { Container } from 'react-bootstrap';
-import Checkbox from 'rc-checkbox';
-// import 'rc-checkbox/assets/index.css';
-import { Button, SavedIcon } from 'evergreen-ui';
 import Save from '../../Componet/Button/BtnSave';
+import Reset from '../../Componet/Button/BtnReset';
+import CheckBox from '../../Componet/CheckBox/Check';
+import Checkbox from 'rc-checkbox';
+import { Button, SavedIcon } from 'evergreen-ui';
 import DataTable from '../../Componet/Data-Table/DataTable';
 import DataTableName from '../../Componet/Data-Table/DataTableName';
 import React, { useState, useEffect } from "react";
@@ -72,18 +73,23 @@ export default function PagePermission() {
     const columsName = [
         {
             name: '',
-            cell: (d) => <> <input type="checkbox" value={user.code} className="checkBox" /></>,
-            width: '20px',
+            selector: 'is_active',
+            cell: (d) => <> <CheckBox checked={d.is_active} /></>,
+            width: '50px',
         },
         {
             name: 'User',
             selector: 'code',
             sortable: true,
-            width: "120px",
+            width: "auto",
         },
     ]
 
     const colums = [
+        {
+            name: 'ID',
+            selector: 'id',
+        },
         {
             name: 'Page Name',
             selector: 'page_name',
@@ -122,11 +128,14 @@ export default function PagePermission() {
         },
     ]
 
-    const numbers = ['Save', 'Role', 'User', 'Page', 'Reset'];
+    const numbers = ['Role', 'User', 'Page', 'Reset', 'Save'];
 
     const ButtonFn = (e) => {
         if (e === 'Page') {
             window.open('./PageList');
+        }
+        if(e === 'Save'){
+            
         }
     }
 
@@ -137,20 +146,12 @@ export default function PagePermission() {
                     <div className='col-lg-2 col-6 col-md-6 col-xs-12'>
                         <h5 className='text-start'>Page Permission</h5>
                     </div>
-                    <div className='col-lg-3 col-6 col-md-6 col-xs-12'>
-
-                        {/* <Button marginRight={5} appearance="primary" intent="success" className='pagebtn'>Save</Button>
-                        <Button marginRight={5} appearance="primary" intent="success" className='pagebtn' >Role</Button>
-                        <Button marginRight={5} appearance="primary" intent="success" className='pagebtn' >User</Button>
-                        <Button marginRight={5} appearance="primary" intent="success" className='pagebtn' >Page</Button>
-                        <Button appearance="primary" intent="danger" className='pagebtn' onClick={ResetFn} >Reset</Button> */}
-                        {/* <Save label="priyank" primaryBtn marginRight={5} /> */}
-
+                    <div className='col-lg-3 col-6 col-md-6 col-xs-12 text-end'>
                         {numbers.map((numbers => <Save label={numbers} value={numbers} primaryBtn marginRight={2} onClick={(e) => ButtonFn(numbers)} />))}
                     </div>
                 </div>
-                <div className='row align-items-center justify-content-between'>
-                    <div className='col-lg-2 col-12 col-md-6'>
+                <div className='row align-items-center ms-1'>
+                    Select Role : <div className='d-flex col-lg-2 col-12 col-md-6'>
                         <select className='form-control' onChange={e => getUserList(e.target.value)}>
                             <option value="0">Select Role</option>
                             {usermasterList.map((user, i) =>
@@ -162,7 +163,7 @@ export default function PagePermission() {
             </div>
             <div className='mt-1 container-fluid'>
                 <div className='row align-items-start justify-content-start'>
-                    <div className='nametable col-xl-2 col-12 col-sm-12 border'>
+                    <div className='nametable col-xl-3 col-12 col-sm-12 border'>
                         <DataTableName
                             columns={columsName}
                             data={user}

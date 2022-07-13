@@ -3,6 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState, useEffect } from "react";
 import Axios from 'axios';
 import Save from '../Componet/Button/BtnSave';
+import Reset from '../Componet/Button/BtnReset';
+import CheckBox from '../Componet/CheckBox/Check';
 import DataTable from '../Componet/Data-Table/DataTable';
 import editImg from '../images/edit.png';
 import removeImg from '../images/remove.png';
@@ -21,17 +23,7 @@ async function addMaster(credentials) {
     })
         .then(data => data.json());
 }
-async function updateMaster(credentials) {
-    return fetch(PageList.Update, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            "Accept": "application/json"
-        },
-        body: JSON.stringify(credentials)
-    })
-        .then(data => data.json());
-}
+
 async function deleteMaster(credentials) {
     return fetch(PageList.Delete, {
         method: 'POST',
@@ -44,7 +36,7 @@ async function deleteMaster(credentials) {
         .then(data => data.json());
 }
 async function addBtn(credentials) {
-    
+
     return fetch(PageControls.Insert, {
         method: 'POST',
         headers: {
@@ -75,12 +67,17 @@ export default function Pagelist() {
     const [Btnmodal, setBtnmodal] = useState(false);
     const [isActive, setIsActive] = useState(true);
 
+    const [nameerror, setNameerror] = useState();
+    const [nameerror1, setNameerror1] = useState();
+    const [nameerror2, setNameerror2] = useState();
+
     const [id, setID] = useState();
     const [name, setName] = useState([]);
     const [namesub1, setNamesub1] = useState();
     const [namesub2, setNamesub2] = useState();
     const [btnid, setbtnid] = useState();
-    const [btnmessage, setMessage] = useState('');
+    const [btnName, setbtnName] = useState();
+    const [btnColor, setbtnColor] = useState();
 
     const fetchPageList = async () => {
         let obj = {};
@@ -94,7 +91,6 @@ export default function Pagelist() {
     }
 
     const fatchbtnList = async (row) => {
-        let obj = {};
         const { data } = await Axios.post(
             PageControls.Select, { id }
         );
@@ -107,6 +103,25 @@ export default function Pagelist() {
     useEffect(() => {
         fetchPageList();
     }, []);
+
+    const validate = () => {
+        if (!name) {
+            setNameerror("Page Name is required");
+            return false;
+        }
+        // setNameerror("");
+        if (!namesub1) {
+            setNameerror1("Page Name is required");
+            return false;
+        }
+        setNameerror1("");
+        if (!namesub2) {
+            setNameerror2("Page Name is required");
+            return false;
+        }
+        setNameerror2("");
+        return true;
+    }
 
     const colums = [
         {
@@ -134,7 +149,7 @@ export default function Pagelist() {
         {
             name: 'Is Active',
             selector: 'is_active',
-            cell: (d) => <><input type="checkbox" checked={d.is_active} className="checkBox" /></>,
+            cell: (d) => <><CheckBox checked={d.is_active} /></>,
             width: '100px',
         },
         {
@@ -173,10 +188,17 @@ export default function Pagelist() {
 
     const refreshFn = () => {
         fetchPageList();
+        validate();
         setmodal(false);
+        setBtnmodal(false);
+    }
+
+    const resetFn = () => {
         setName("");
         setNamesub1("");
         setNamesub2("");
+        setbtnName("");
+        setbtnColor("");
     }
 
     const editFn = async (row) => {
@@ -194,8 +216,9 @@ export default function Pagelist() {
         let page_name = name;
         let page_name_sub = namesub1;
         let page_name_sub_more = namesub2;
+
         alert(isActive);
-        const res = await updateMaster({
+        const res = await addMaster({
             id,
             page_name, page_name_sub, page_name_sub_more, is_active
         });
@@ -238,44 +261,53 @@ export default function Pagelist() {
     const addFn = () => { setmodal(true); }
 
     const saveFn = async e => {
+        validate();
         let is_active = (isActive) ? 1 : 0;
+        let id = id;
         let page_name = name;
         let page_name_sub = namesub1;
         let page_name_sub_more = namesub2;
-        const res = await addMaster({
-            id, 
-            page_name, page_name_sub, page_name_sub_more, is_active
-        });
-        if (res) {
-            if (res.flag) {
-                if (e) {
-                    setmodal(true);
+        if (validate()) {
+            const res = await addMaster({
+                id,
+                page_name, page_name_sub, page_name_sub_more, is_active
+            });
+            if (res) {
+                if (res.flag) {
+                    if (e) {
+                        setmodal(true);
+                    }
+                    else {
+                        setmodal(false);
+                    }
+                    refreshFn();
+                    fetchPageList();
                 }
                 else {
-                    setmodal(false);
+                    alert(res.message);
                 }
-                refreshFn();
-                fetchPageList();
-            }
-            else {
-                alert(res.message);
             }
         }
     }
 
     const handleChange = event => {
         const result = event.target.value.replace(/[^a-z]/gi, '');
-        setMessage(result);
+        setbtnName(result);
+    };
+    const handleChange1 = event => {
+        const result = event.target.value.replace(/[^a-z]/gi, '');
+        setbtnColor(result);
     };
 
-    const addBtnFn = (row) => { 
-        setBtnmodal(true); 
-        setMessage(row.button_name);
+
+    const addBtnFn = (row) => {
+        setBtnmodal(true);
+        setbtnName(row.button_name);
         setbtnid(row.id);
     }
 
-    const addnewbtnFn = async (e) => { 
-        let BUTTON_NAME = btnmessage; 
+    const addnewbtnFn = async (e) => {
+        let BUTTON_NAME = btnName;
         const res = await addBtn({ id, BUTTON_NAME });
         if (res) {
             if (res.flag) {
@@ -283,7 +315,7 @@ export default function Pagelist() {
                 refreshFn();
             }
             else {
-                alert(res.message);
+                // alert(res.message);
             }
         }
         fatchbtnList();
@@ -301,18 +333,23 @@ export default function Pagelist() {
                         <Save label="Refresh" primaryBtn onClick={refreshFn} />
                         <Save label="Add" primaryBtn onClick={addFn} />
                         <Save label="Save" primaryBtn onClick={saveFn} />
-                        {/* <Save label="Save Button" primaryBtn /> */}
-                        <Save label="Reset" primaryBtn />
+                        <Reset label="Reset" primaryBtn onClick={resetFn} />
                     </div>
                 </div>
                 {modal && (
                     <div className='row align-items-center justify-content-between mb-3'>
                         <div className='col-12 d-flex'>
-                            <div>Page Name : <input type="text" value={name} onChange={e => setName(e.target.value)} /></div>
-                            <div className='ms-3'>Page Sub Name : <input type="text" value={namesub1} onChange={e => setNamesub1(e.target.value)} /></div>
+                            <div>
+                                <div>Page Name : <input type="text" value={name} onChange={e => setName(e.target.value)} /></div>
+                                <p className="errorFild ms-5">{nameerror}</p>
+                            </div>
+                            <div>
+                                <div className='ms-3'>Page Sub Name : <input type="text" value={namesub1} onChange={e => setNamesub1(e.target.value)} /></div>
+                                <p className="errorFild ms-5">{nameerror1}</p>
+                            </div>
                             <div className='ms-3'>Page Sub Name : <input type="text" value={namesub2} onChange={e => setNamesub2(e.target.value)} /></div>
-                            <div className='ms-5 mt-1'><input type="checkbox" checked={isActive} className="checkBox me-1" />Active</div>
-                            <Save label="Update" className='ms-5' primaryBtn onClick={updateFn} />
+                            <div className='ms-3 d-flex'><CheckBox checked={isActive} className='mt-3' /><p className='ms-2'>Active</p></div>
+                            {/* <Save label="Update" className='ms-4' primaryBtn onClick={updateFn} /> */}
                         </div>
                     </div>
                 )}
@@ -330,11 +367,12 @@ export default function Pagelist() {
                         </div>
                     )}
                     {Btnmodal && (
-                        <div className='d-flex align-items-start justify-content-center'>
+                        <div className='d-flex mt-3 align-items-center justify-content-center'>
                             <div>
-                                <input type='text' placeholder='Button Name' value={btnmessage} onChange={handleChange} />
+                                <input type='text' placeholder='Button Name' value={btnName} onChange={handleChange} style={{ width: '130px' }} />
+                                <input type='text' placeholder='Button Color' value={btnColor} onChange={handleChange1} style={{ width: '100px' }} className='ms-2' />
                             </div>
-                            <Save label="Add Button" className='ms-5' primaryBtn onClick={addnewbtnFn} />
+                            <Save label="Add Button" className='ms-2' primaryBtn onClick={addnewbtnFn} />
                         </div>
                     )}
                 </div>

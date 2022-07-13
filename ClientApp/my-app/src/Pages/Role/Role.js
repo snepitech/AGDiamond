@@ -3,14 +3,27 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Axios from 'axios';
 import React, { useState, useEffect } from "react";
 import Save from '../../Componet/Button/BtnSave';
+import Reset from '../../Componet/Button/BtnReset';
+import CheckBox from '../../Componet/CheckBox/Check';
 import DataTable from '../../Componet/Data-Table/DataTable';
 import editImg from '../../images/edit.png';
-import removeImg from '../../images/remove.png';
+import removeImg from '../../images/image.png';
 import { API_URLS } from "../../Componet/API/allAPI";
 const { RoleMast } = API_URLS;
 
 async function addRole(credentials) {
     return fetch(RoleMast.Insert, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            "Accept": "application/json"
+        },
+        body: JSON.stringify(credentials)
+    })
+        .then(data => data.json());
+}
+async function deleteRole(credentials) {
+    return fetch(RoleMast.Delete, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -36,8 +49,6 @@ export default function Role() {
         if (data.data != null) {
             const list = data.data.list;
             setPageList(list);
-
-            // alert((list[0]['id']));
         }
     }
 
@@ -48,11 +59,27 @@ export default function Role() {
     const refreshFn = () => {
         fetchRoleList();
         setmodal(false);
+        setCode("");
+        setName("");
     }
 
-    const deleteFn = () => {
-
+    const deleteFn = async (row) => {
+        if (row.id) {
+            const res = await deleteRole({ id: row.id });
+            if (res.flag) {
+                fetchRoleList();
+            }
+            else {
+                alert(res.message);
+            }
+        }
     }
+
+    const editFn = (row) => {
+        setmodal(true);
+        setCode(row.code);
+        setName(row.name);
+    } 
 
     const colums = [
         {
@@ -72,16 +99,23 @@ export default function Role() {
             selector: 'code',
             width: 'auto',
         },
+        // {
+        //     name: 'Is Active',
+        //     selector: 'is_active',
+        //     cell: (d) => <><input type="checkbox" checked={d.is_active} className="checkBox" /></>,
+        //     width: 'auto',
+        // },
         {
-            name: 'is active',
+            name: 'Is Active',
             selector: 'is_active',
-            cell: (d) => <><input type="checkbox" checked={d.is_active} className="checkBox" /></>,
+            cell: (d) => <><CheckBox checked={d.is_active} /></>,
             width: 'auto',
         },
+
         {
             name: 'Action',
             Button: true,
-            cell: (d) => <><img src={editImg} width={13} /><img src={removeImg} width={13} onClick={() => deleteFn(d)} className='ms-2' /></>,
+            cell: (d) => <><img src={editImg} width={13} onClick={() => editFn(d)} /><img src={removeImg} width={13} onClick={() => deleteFn(d)} className='ms-2' /></>,
         },
     ]
 
@@ -115,15 +149,16 @@ export default function Role() {
             <div className='mt-5 pt-3 container-fluid'>
                 <div className='row align-items-center justify-content-between'>
                     <div className='col-lg-1 col-6 col-md-6 col-xs-12'>
-                        <h5 className='text-start'>Role</h5>
+                        <h5 className='text-start'>Role Master</h5>
                     </div>
-                    <div className='col-lg-6 col-6 col-md-6 col-xs-12 d-flex text-end justify-content-end'>
+                    <div className='col-lg-4 col-6 col-md-6 col-xs-12 d-flex text-end align-items-center justify-content-end'>
                             <Save label="Refresh" primaryBtn onClick={refreshFn} />
                             <Save label="Add" primaryBtn onClick={addFn} />
                         {modal && (
                             <div>
-                                <Save label="Reset" primaryBtn onClick={resetFn} />
                                 <Save label="Save" primaryBtn onClick={saveFn} />
+                                {/* <Save label="Save & Continue" primaryBtn /> */}
+                                <Reset label="Reset" primaryBtn onClick={resetFn} />
                             </div>
                         )}
                     </div>
